@@ -1,6 +1,6 @@
 TARGET=main.o
 CXX=c++
-OBJS=main.cpp
+OBJS=src/main.cpp
 
 main:$(OBJS)
 	g++ -o $(TARGET) -Wall -lglut -lGL -lGLU $(OBJS)
