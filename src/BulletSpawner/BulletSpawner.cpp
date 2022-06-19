@@ -1,12 +1,13 @@
-//#include <irrklang/irrKlang.h>
 #include "BulletSpawner.h"
+#include "../SoundController/SoundController.cpp"
+#include <iostream>
 
-BulletSpawner::BulletSpawner() {
-}
+BulletSpawner::BulletSpawner() {}
 
 void BulletSpawner::update() {
-  for (auto const& bullet : this->bullets)
-    bullet->update(); 
+  this->bullets.remove_if([](Bullet* bullet) {
+    return !bullet->update();
+  });
 
   if(this->bulletCooldown > 0.0f) this->bulletCooldown--;
 }
@@ -21,5 +22,7 @@ void BulletSpawner::spawnBullet(glm::vec2 position) {
     Bullet* newBullet = new Bullet(position);
     this->bullets.push_back(newBullet);
     this->bulletCooldown = 10.0f;
+
+    SoundController::play("shot");
   }
 }

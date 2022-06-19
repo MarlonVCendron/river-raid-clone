@@ -11,7 +11,7 @@ private:
 
 public:
   Bullet(glm::vec2 position);
-  void update();
+  bool update();
   void render();
 };
 

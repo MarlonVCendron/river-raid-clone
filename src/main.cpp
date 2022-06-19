@@ -7,8 +7,8 @@
 
 #include "Player/Player.cpp"
 
-#define W 800
-#define H 800
+#define W 1200
+#define H 900
 #define MSPF 10
 
 Player* player = new Player(glm::vec2(100.0f, 100.0f));
@@ -37,7 +37,6 @@ void resize(GLsizei w, GLsizei h) {
 void display() {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-
 
   glClearColor(0.13, 0.1, 0.12, 1);
   glClear(GL_COLOR_BUFFER_BIT);

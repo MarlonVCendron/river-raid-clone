@@ -9,8 +9,10 @@ Bullet::Bullet(glm::vec2 pos) {
   position = pos;
 }
 
-void Bullet::update() {
+bool Bullet::update() {
   this->position.y += this->speed;
+  if(this->position.y > glutGet(GLUT_SCREEN_HEIGHT)) return false;
+  return true;
 }
 
 void Bullet::render() {
