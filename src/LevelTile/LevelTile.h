@@ -9,10 +9,12 @@ private:
   float y;
   float speed;
   float width;
-  const float height = 100.0f;
+  float height;
 
 public:
-  LevelTile(float y, float speed);
+  float getTopY() { return y + height; }
+
+  LevelTile(float y, float speed, float height);
   bool update();
   void render();
 };

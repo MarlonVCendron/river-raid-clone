@@ -4,14 +4,18 @@
 #include <glm/fwd.hpp>
 #include <stdlib.h>
 #include <glm/glm.hpp>
+#include <cstdlib>
+#include <ctime>
 
 #include "Player/Player.cpp"
+#include "Level/Level.cpp"
 
 #define W 1200
 #define H 900
 #define MSPF 10
 
-Player* player = new Player(glm::vec2(100.0f, 100.0f));
+Player* player;
+Level* level;
 
 void keyDown(unsigned char key, int x, int y) {
   if(key == '\x1B'){
@@ -41,18 +45,22 @@ void display() {
   glClearColor(0.13, 0.1, 0.12, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
+  level->render();
   player->render();
 
   glutSwapBuffers();
 }
 
 void animate(int value) {
+  level->update();
   player->update();
   glutPostRedisplay();
   glutTimerFunc(MSPF, animate, 1);
 }
 
 int main(int argc, char **argv) {
+  srand(static_cast<unsigned>(time(0)));
+
   glutInit(&argc, argv);
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
   glutSetKeyRepeat(GLUT_KEY_REPEAT_OFF);
@@ -64,6 +72,11 @@ int main(int argc, char **argv) {
   glutTimerFunc(MSPF, animate, 1);
   glutKeyboardFunc(keyDown);
   glutKeyboardUpFunc(keyUp);
+
+  player = new Player(glm::vec2(W/2, 100.0f));
+  level = new Level();
+
   glutMainLoop();
+
   return EXIT_SUCCESS;
 }

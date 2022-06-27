@@ -11,7 +11,7 @@ Bullet::Bullet(glm::vec2 pos) {
 
 bool Bullet::update() {
   this->position.y += this->speed;
-  if(this->position.y > glutGet(GLUT_SCREEN_HEIGHT)) return false;
+  if(this->position.y > glutGet(GLUT_WINDOW_HEIGHT)) return false;
   return true;
 }
 
