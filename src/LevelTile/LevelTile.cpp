@@ -3,20 +3,21 @@
 #include <GL/glut.h>
 #include "LevelTile.h"
 #include "../Utils/RandomNumber.cpp"
+#include "../Utils/checkCollision.cpp"
 
 #include <iostream>
 
 #define X_MIDDLE glutGet(GLUT_WINDOW_WIDTH) / 2.0f
 
-LevelTile::LevelTile(float y, float speed, float height) {
+LevelTile::LevelTile(float y, float* speed) {
   this->y = y;
   this->speed = speed;
-  this->height = height;
+  this->height = randomFloat(glutGet(GLUT_WINDOW_HEIGHT) * 0.6f) + 500;
   this->width = randomFloat(glutGet(GLUT_WINDOW_WIDTH) * 0.7f) + 200;
 }
 
-bool LevelTile::update() {
-  this->y -= this->speed;
+bool LevelTile::update(std::list<Bullet*> bullets) {
+  this->y -= *this->speed;
 
   if(this->y + this->height < 0) return false;
   return true;
@@ -48,5 +49,22 @@ void LevelTile::render() {
   glVertex2f(X_MIDDLE*2, this->y+this->height);
   glVertex2f(X_MIDDLE*2, this->y);
   glEnd();
-
 }
+
+bool LevelTile::checkPlayerCollision(Player* player) {
+  float width = X_MIDDLE-this->width/2.0f;
+  float xRight = X_MIDDLE+this->width/2.0f;
+
+  bool collideLeft = checkCollision(
+    0, this->y, width, this->height, // Left
+    player->position.x, player->position.y, player->w, player->h // Player
+  );
+
+  bool collideRight = checkCollision(
+    xRight, this->y, width, this->height, // Right
+    player->position.x, player->position.y, player->w, player->h // Player
+  );
+
+  return collideLeft || collideRight;
+}
+

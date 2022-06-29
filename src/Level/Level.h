@@ -8,14 +8,15 @@
 class Level {
 
 private:
-  float speed = 5.0f;
+  Player* player;
   std::list<LevelTile*> tiles;
+  float speed = 5.0f;
 
   bool tryAddTile();
 
 public:
-  Level();
-  void update();
+  Level(Player* player);
+  bool update();
   void render();
 };
 

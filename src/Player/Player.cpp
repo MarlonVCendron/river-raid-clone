@@ -7,6 +7,8 @@
 
 Player::Player(glm::vec2 pos) {
   this->position = pos;
+  this->w = 20;
+  this->h = 20;
 }
 
 void Player::update() {
@@ -18,10 +20,10 @@ void Player::update() {
 void Player::render() {
   glColor3f(0.85, 0.7, 0.3);
   glBegin(GL_POLYGON);
-  glVertex2f(this->position.x-20, this->position.y-20);
-  glVertex2f(this->position.x-20, this->position.y+20);
-  glVertex2f(this->position.x+20, this->position.y+20);
-  glVertex2f(this->position.x+20, this->position.y-20);
+  glVertex2f(this->position.x - this->w, this->position.y - this->h);
+  glVertex2f(this->position.x - this->w, this->position.y + this->h);
+  glVertex2f(this->position.x + this->w, this->position.y + this->h);
+  glVertex2f(this->position.x + this->w, this->position.y - this->h);
   glEnd();
 
   this->bulletSpawner->render();
@@ -36,4 +38,8 @@ void Player::keyDown(unsigned char key, int x, int y) {
 void Player::keyUp(unsigned char key, int x, int y) {
   if(key == 'a' && this->direction == -1) this->direction = 0;
   if(key == 'd' && this->direction == +1) this->direction = 0;
+}
+
+std::list<Bullet*> Player::getBullets() {
+  return this->bulletSpawner->getBullets();
 }

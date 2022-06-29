@@ -16,6 +16,7 @@ public:
   void update();
   void render();
   void spawnBullet(glm::vec2 position);
+  std::list<Bullet*> getBullets();
 };
 
 #endif

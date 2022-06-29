@@ -7,7 +7,6 @@
 #include <cstdlib>
 #include <ctime>
 
-#include "Player/Player.cpp"
 #include "Level/Level.cpp"
 
 #define W 1200
@@ -46,16 +45,14 @@ void display() {
   glClear(GL_COLOR_BUFFER_BIT);
 
   level->render();
-  player->render();
 
   glutSwapBuffers();
 }
 
 void animate(int value) {
-  level->update();
-  player->update();
   glutPostRedisplay();
-  glutTimerFunc(MSPF, animate, 1);
+  if(level->update())
+    glutTimerFunc(MSPF, animate, 1);
 }
 
 int main(int argc, char **argv) {
@@ -74,7 +71,7 @@ int main(int argc, char **argv) {
   glutKeyboardUpFunc(keyUp);
 
   player = new Player(glm::vec2(W/2, 100.0f));
-  level = new Level();
+  level = new Level(player);
 
   glutMainLoop();
 

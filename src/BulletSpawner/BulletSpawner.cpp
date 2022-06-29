@@ -26,3 +26,7 @@ void BulletSpawner::spawnBullet(glm::vec2 position) {
     SoundController::play("shot");
   }
 }
+
+std::list<Bullet*> BulletSpawner::getBullets() {
+  return this->bullets;
+}
