@@ -11,6 +11,9 @@ private:
   Player* player;
   std::list<LevelTile*> tiles;
   float speed = 5.0f;
+  float prevX1;
+  float prevX2;
+  bool connector;
 
   bool tryAddTile();
 

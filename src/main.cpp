@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
   glutKeyboardFunc(keyDown);
   glutKeyboardUpFunc(keyUp);
 
-  player = new Player(glm::vec2(W/2, 100.0f));
+  player = new Player(glm::vec2(W/2 - 20, 100.0f));
   level = new Level(player);
 
   glutMainLoop();

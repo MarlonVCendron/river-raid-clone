@@ -1,23 +1,21 @@
-#ifndef RIVERRAID_LEVELTILE_H
-#define RIVERRAID_LEVELTILE_H
+#ifndef RIVERRAID_LEVELTILECONNECTOR_H
+#define RIVERRAID_LEVELTILECONNECTOR_H
 
 #include "../Player/Player.cpp"
 
-class LevelTile {
+class LevelTileConnector {
 
 private:
   float y;
   float* speed;
+  float height;
   float x1;
   float x2;
-  float prevX1 = 0.0f;
-  float prevX2 = 0.0f;
-  float height;
 
 public:
   float getTopY() { return y + height; }
 
-  LevelTile(float y, float* speed, float x1, float x2, float prevX1, float prevX2);
+  LevelTileConnector(float y, float* speed);
   bool update(std::list<Bullet*> bullets);
   void render();
   bool checkPlayerCollision(Player* player);

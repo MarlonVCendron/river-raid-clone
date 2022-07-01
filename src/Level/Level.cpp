@@ -1,6 +1,7 @@
 #include <GL/freeglut_std.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
+#include <algorithm>
 #include "Level.h"
 
 #include <iostream>
@@ -10,12 +11,28 @@ bool Level::tryAddTile() {
   const float y = lastTile == NULL ? 0 : lastTile->getTopY();
   if(y > glutGet(GLUT_WINDOW_HEIGHT)) return false;
 
-  this->tiles.push_back(new LevelTile(y, &this->speed));
+
+  if(this->connector){
+    float halfWidth = glutGet(GLUT_WINDOW_WIDTH) / 2.0;
+    float x1 = randomFloat(halfWidth) + 80;
+    float x2 = randomFloat(halfWidth) + halfWidth - 80;
+
+    this->tiles.push_back(new LevelTile(y, &this->speed, x1, x2, this->prevX1, this->prevX2));
+    this->prevX1 = x1;
+    this->prevX2 = x2;
+  } else {
+    this->tiles.push_back(new LevelTile(y, &this->speed, this->prevX1, this->prevX2, this->prevX1, this->prevX2));
+  }
+
+  this->connector = !this->connector;
   return true;
 }
 
 Level::Level(Player* player) {
   this->player = player;
+  this->prevX1 = 200;
+  this->prevX2 = glutGet(GLUT_WINDOW_WIDTH) - 200;
+  this->connector = false;
 
   bool doneAddingTiles = false;
   while(!doneAddingTiles){
