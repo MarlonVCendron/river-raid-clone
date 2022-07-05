@@ -57,20 +57,31 @@ void LevelTile::render() {
 }
 
 bool LevelTile::checkPlayerCollision(Player* player) {
+  bool collideLeft, collideRight;
   if(x1 == prevX1) {
-    bool collideLeft = checkCollision(
-      0, this->y, this->x1, this->height, // Left
-      player->position.x, player->position.y, player->w, player->h // Player
+    collideLeft = boxCollision(
+      0, this->y, this->x1, this->height,
+      player->position.x, player->position.y, player->w, player->h
     );
 
-    bool collideRight = checkCollision(
-      this->x2, this->y, glutGet(GLUT_WINDOW_WIDTH), this->height, // Right
-      player->position.x, player->position.y, player->w, player->h // Player
+    collideRight = boxCollision(
+      this->x2, this->y, glutGet(GLUT_WINDOW_WIDTH), this->height,
+      player->position.x, player->position.y, player->w, player->h
     );
 
-    return collideLeft || collideRight;
   } else {
-    return false;
+    collideLeft = lineBoxCollision(
+      this->prevX1, this->y, this->x1, this->y + this->height,
+      player->position.x, player->position.y, player->w, player->h,
+      true
+    );
+
+    collideRight = lineBoxCollision(
+      this->prevX2, this->y, this->x2, this->y + this->height,
+      player->position.x, player->position.y, player->w, player->h,
+      false
+    );
   }
+  return collideLeft || collideRight;
 }
 
