@@ -3,12 +3,14 @@
 #include <GL/glut.h>
 #include "Player.h"
 
-#include <iostream>
-
 Player::Player(glm::vec2 pos) {
   this->position = pos;
   this->w = 40;
   this->h = 40;
+}
+
+void Player::reset() {
+  this->position = glm::vec2(glutGet(GLUT_WINDOW_WIDTH)/2 - 20, 100.0f);
 }
 
 void Player::update() {

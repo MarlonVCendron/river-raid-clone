@@ -21,6 +21,7 @@ public:
   Level(Player* player);
   bool update();
   void render();
+  void endGame();
 };
 
 #endif

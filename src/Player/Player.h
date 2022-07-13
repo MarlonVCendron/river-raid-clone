@@ -18,6 +18,7 @@ public:
   Player(glm::vec2 position);
   void update();
   void render();
+  void reset();
   void keyDown(unsigned char key, int x, int y);
   void keyUp(unsigned char key, int x, int y);
   std::list<Bullet*> getBullets();

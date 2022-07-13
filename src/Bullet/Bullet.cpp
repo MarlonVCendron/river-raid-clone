@@ -18,10 +18,10 @@ bool Bullet::update() {
 void Bullet::render() {
   glColor3f(0.75, 0.6, 0.3);
   glBegin(GL_POLYGON);
-  glVertex2f(this->position.x-5, this->position.y-5);
-  glVertex2f(this->position.x-5, this->position.y+5);
-  glVertex2f(this->position.x+5, this->position.y+5);
-  glVertex2f(this->position.x+5, this->position.y-5);
+  glVertex2f(this->position.x, this->position.y);
+  glVertex2f(this->position.x, this->position.y+size);
+  glVertex2f(this->position.x+size, this->position.y+size);
+  glVertex2f(this->position.x+size, this->position.y);
   glEnd();
 }
 

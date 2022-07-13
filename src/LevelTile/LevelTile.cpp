@@ -2,10 +2,6 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include "LevelTile.h"
-#include "../Utils/RandomNumber.cpp"
-#include "../Utils/checkCollision.cpp"
-
-#include <iostream>
 
 #define X_MIDDLE glutGet(GLUT_WINDOW_WIDTH) / 2.0f
 
@@ -17,14 +13,23 @@ LevelTile::LevelTile(float y, float* speed, float x1, float x2, float prevX1, fl
   this->prevX1 = prevX1;
   this->prevX2 = prevX2;
 
-  if(x1 == prevX1)
+  if(x1 == prevX1){
     this->height = randomFloat(glutGet(GLUT_WINDOW_HEIGHT) * 0.6f) + 500.0f;
-  else
+    if(y !=0 ) this->spawnObjects();
+  }else {
     this->height = 200.0f;
     //this->height = randomFloat(glutGet(GLUT_WINDOW_HEIGHT) * 0.5f) + 100;
+   }
 }
 
-bool LevelTile::update(std::list<Bullet*> bullets) {
+void LevelTile::spawnObjects() {
+  this->ships.push_back(new Ship(x1, x2, &y, height, 5.0f));
+}
+
+bool LevelTile::update(std::list<Bullet*> bullets, Player* player){
+  for (auto const& ship : this->ships)
+    ship->update(bullets, player);
+
   this->y -= *this->speed;
 
   if(this->y + this->height < 0) return false;
@@ -54,6 +59,9 @@ void LevelTile::render() {
   glVertex2f(glutGet(GLUT_WINDOW_WIDTH), this->y+this->height);
   glVertex2f(glutGet(GLUT_WINDOW_WIDTH), this->y);
   glEnd();
+
+  for (auto const& ship : this->ships)
+    ship->render(); 
 }
 
 bool LevelTile::checkPlayerCollision(Player* player) {
