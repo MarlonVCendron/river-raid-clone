@@ -9,7 +9,7 @@ private:
   float x, offsetY;
   float* y;
   float boundX1, boundX2;
-  float w = 80.0, h = 50.0;
+  float w = 120.0, h = 40.0;
   float speed;
 
 public:

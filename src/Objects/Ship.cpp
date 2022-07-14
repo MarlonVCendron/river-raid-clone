@@ -26,12 +26,34 @@ int Ship::update(std::list<Bullet*>& bullets, Player* player) {
 }
 
 void Ship::render() {
+  float y = *(this->y) + offsetY;
+  
+  // Fundo laranja
+  glColor3f(0.68, 0.29, 0.04);
+  glBegin(GL_POLYGON);
+  glVertex2f(x+w*2/8, y);
+  glVertex2f(x+w*1/8, y + h*1/8);
+  glVertex2f(x+w*7/8, y + h*1/8);
+  glVertex2f(x+w*6/8, y);
+  glEnd();
+
+  // Fundo preto
+  glColor3f(0.05, 0.1, 0.0);
+  glBegin(GL_POLYGON);
+  glVertex2f(x+w*1/8, y + h*1/8);
+  glVertex2f(x, y + h*4/8);
+  glVertex2f(x+w, y + h*4/8);
+  glVertex2f(x+w*7/8, y + h*1/8);
+  glEnd();
+  
+  // Topo
   glColor3f(0.3, 0.2, 0.5);
   glBegin(GL_POLYGON);
-  glVertex2f(x, *y+offsetY);
-  glVertex2f(x, *y+offsetY + h);
-  glVertex2f(x + w, *y+offsetY + h);
-  glVertex2f(x + w, *y+offsetY);
+  glVertex2f(x+w*1/8, y + h*4/8);
+  glVertex2f(x+w*1/8, y + h*4/8);
+  glVertex2f(x+w*3/8, y + h);
+  glVertex2f(x+w*5/8, y + h);
+  glVertex2f(x+w*5/8, y + h*4/8);
   glEnd();
 }
 
