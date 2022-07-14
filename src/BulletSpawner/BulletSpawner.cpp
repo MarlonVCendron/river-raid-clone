@@ -27,6 +27,6 @@ void BulletSpawner::spawnBullet(glm::vec2 position) {
   }
 }
 
-std::list<Bullet*> BulletSpawner::getBullets() {
+std::list<Bullet*>& BulletSpawner::getBullets() {
   return this->bullets;
 }

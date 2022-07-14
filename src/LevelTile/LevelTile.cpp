@@ -26,14 +26,19 @@ void LevelTile::spawnObjects() {
   this->ships.push_back(new Ship(x1, x2, &y, height, 5.0f));
 }
 
-bool LevelTile::update(std::list<Bullet*> bullets, Player* player){
-  for (auto const& ship : this->ships)
-    ship->update(bullets, player);
+int LevelTile::update(std::list<Bullet*>& bullets, Player* player){
+  bool playerDeath = false;
+  ships.remove_if([&](Ship* ship) {
+    int shipStatus = ship->update(bullets, player);
+    if(shipStatus == 1) playerDeath = true;
+    return (shipStatus != 0);
+  });
 
   this->y -= *this->speed;
 
-  if(this->y + this->height < 0) return false;
-  return true;
+  if(this->y + this->height < 0) return 1;
+  if(playerDeath) return 2;
+  return 0;
 }
 
 void LevelTile::render() {

@@ -8,15 +8,16 @@
 class BulletSpawner {
 
 private:
-  std::list<Bullet*> bullets;
   float bulletCooldown = 0.0f;
 
 public:
+  std::list<Bullet*> bullets;
+
   BulletSpawner();
   void update();
   void render();
   void spawnBullet(glm::vec2 position);
-  std::list<Bullet*> getBullets();
+  std::list<Bullet*>& getBullets();
 };
 
 #endif

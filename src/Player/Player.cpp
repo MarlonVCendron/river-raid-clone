@@ -42,6 +42,6 @@ void Player::keyUp(unsigned char key, int x, int y) {
   if(key == 'd' && this->direction == +1) this->direction = 0;
 }
 
-std::list<Bullet*> Player::getBullets() {
-  return this->bulletSpawner->getBullets();
+std::list<Bullet*>& Player::getBullets() {
+  return this->bulletSpawner->bullets;
 }

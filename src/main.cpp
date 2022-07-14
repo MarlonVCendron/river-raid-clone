@@ -41,7 +41,7 @@ void display() {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
 
-  glClearColor(0.13, 0.1, 0.12, 1);
+  glClearColor(0, 0.26, 0.82, 1);
   glClear(GL_COLOR_BUFFER_BIT);
 
   level->render();

@@ -21,7 +21,7 @@ public:
   void reset();
   void keyDown(unsigned char key, int x, int y);
   void keyUp(unsigned char key, int x, int y);
-  std::list<Bullet*> getBullets();
+  std::list<Bullet*>& getBullets();
 };
 
 #endif

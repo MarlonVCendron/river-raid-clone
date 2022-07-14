@@ -2,6 +2,7 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <algorithm>
+#include <iostream>
 #include "Level.h"
 
 bool Level::tryAddTile() {
@@ -27,7 +28,7 @@ bool Level::tryAddTile() {
 }
 
 Level::Level(Player* player) {
-  SoundController::play("music");
+  //SoundController::play("music");
   this->player = player;
   prevX1 = 200;
   prevX2 = glutGet(GLUT_WINDOW_WIDTH) - 200;
@@ -40,11 +41,11 @@ Level::Level(Player* player) {
 }
 
 bool Level::update() {
-  std::list<Bullet*> bullets = this->player->getBullets();
-
   this->tiles.remove_if([=](LevelTile* tile) {
     this->tryAddTile();
-    return !tile->update(bullets, player);
+    int tileStatus = tile->update(this->player->getBullets(), player);
+    if(tileStatus == 2) this->endGame();
+    return (tileStatus != 0);
   });
 
   int i = 0;

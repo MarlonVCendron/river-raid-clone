@@ -15,13 +15,14 @@ Ship::Ship(float boundX1, float boundX2, float* y, float boundHeight, float spee
   this->offsetY = randomFloat(boundHeight - 2*h) + h;
 }
 
-bool Ship::update(std::list<Bullet*> bullets, Player* player) {
+int Ship::update(std::list<Bullet*>& bullets, Player* player) {
   this->x += speed;
   if(x < boundX1 + 50) speed = abs(speed);
   if(x+w > boundX2 - 50) speed = -abs(speed);
 
-  this->checkPlayerCollision(player);
-  return this->checkBulletsCollision(bullets);
+  if(this->checkPlayerCollision(player)) return 1;
+  if(this->checkBulletsCollision(bullets)) return 2;
+  return 0;
 }
 
 void Ship::render() {
@@ -36,25 +37,31 @@ void Ship::render() {
 
 bool Ship::checkPlayerCollision(Player* player) {
   return boxCollision(
-    x, *y+offsetY, x+w, *y+offsetY+h,
+    x, *y+offsetY, w, h,
     player->position.x, player->position.y, player->w, player->h
   );
 }
 
+bool Ship::checkBulletsCollision(std::list<Bullet*>& bullets) {
+  std::list<Bullet*>::iterator it = bullets.begin();
+  while (it != bullets.end()){
+    Bullet* bullet = *it;
 
-bool Ship::checkBulletsCollision(std::list<Bullet*> bullets) {
-  bullets.remove_if([=](Bullet* bullet) {
-    bool col = boxCollision(
-      x, *y+offsetY, x+w, *y+offsetY+h,
+    bool collision = boxCollision(
+      x, *y+offsetY, w, h,
       bullet->position.x, bullet->position.y, bullet->size, bullet->size
     );
 
-    std::cout << col << '\n';
-    return col;
-  });
+    if(collision){
+      bullets.erase(it);
+      return true;
+    }
+
+    ++it;
+  }
+
   return false;
 }
-
 
 
 
