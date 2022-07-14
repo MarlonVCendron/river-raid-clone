@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Ship.h"
 #include "../Utils/checkCollision.h"
-#include "../Utils/RandomNumber.cpp"
+#include "../Utils/RandomNumber.h"
 
 Ship::Ship(float boundX1, float boundX2, float* y, float boundHeight, float speed) {
   this->x = boundX1+(boundX2-boundX1)/2;

@@ -3,6 +3,7 @@
 
 #include "../Player/Player.cpp"
 #include "../Objects/Ship.cpp"
+#include "../Objects/Heli.cpp"
 
 class LevelTile {
 
@@ -14,6 +15,7 @@ private:
   float prevX2 = 0.0f;
   float height;
   std::list<Ship*> ships;
+  std::list<Heli*> helis;
 
   void spawnObjects();
 

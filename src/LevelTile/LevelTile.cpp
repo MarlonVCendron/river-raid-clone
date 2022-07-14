@@ -23,7 +23,8 @@ LevelTile::LevelTile(float y, float* speed, float x1, float x2, float prevX1, fl
 }
 
 void LevelTile::spawnObjects() {
-  this->ships.push_back(new Ship(x1, x2, &y, height, 5.0f));
+  this->ships.push_back(new Ship(x1, x2, &y, height, 3.0f));
+  this->helis.push_back(new Heli(x1, x2, &y, height, 5.0f));
 }
 
 int LevelTile::update(std::list<Bullet*>& bullets, Player* player){
@@ -32,6 +33,12 @@ int LevelTile::update(std::list<Bullet*>& bullets, Player* player){
     int shipStatus = ship->update(bullets, player);
     if(shipStatus == 1) playerDeath = true;
     return (shipStatus != 0);
+  });
+
+  helis.remove_if([&](Heli* heli) {
+    int heliStatus = heli->update(bullets, player);
+    if(heliStatus == 1) playerDeath = true;
+    return (heliStatus != 0);
   });
 
   this->y -= *this->speed;
@@ -67,6 +74,8 @@ void LevelTile::render() {
 
   for (auto const& ship : this->ships)
     ship->render(); 
+  for (auto const& heli : this->helis)
+    heli->render(); 
 }
 
 bool LevelTile::checkPlayerCollision(Player* player) {

@@ -1,3 +1,6 @@
+#ifndef RIVERRAID_CHECKCOLLISION_H
+#define RIVERRAID_CHECKCOLLISION_H
+
 bool boxCollision(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2) {
   float x1w = x1 + w1;
   float y1h = y1 + h1;
@@ -27,3 +30,4 @@ bool lineBoxCollision(float x1, float y1, float x2, float y2, float x3, float y3
   }
 }
 
+#endif
