@@ -5,6 +5,7 @@
 #include "../Objects/Ship.cpp"
 #include "../Objects/Heli.cpp"
 #include "../Objects/Fuel.cpp"
+#include "../Objects/Bridge.cpp"
 
 class LevelTile {
 
@@ -18,6 +19,7 @@ private:
   std::list<Ship*> ships;
   std::list<Heli*> helis;
   std::list<Fuel*> fuels;
+  std::list<Bridge*> bridges;
 
   void spawnObjects();
 

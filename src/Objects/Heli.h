@@ -6,8 +6,6 @@
 class Heli {
 
 private:
-  float x, offsetY;
-  float* y;
   float boundX1, boundX2;
   float w = 60.0, h = 50.0;
   float speed;
@@ -15,6 +13,9 @@ private:
   bool animationFrame;
 
 public:
+  float x, offsetY;
+  float* y;
+
   Heli(float boundX1, float boundX2, float* y, float boundHeight, float speed);
   int update(std::list<Bullet*>& bullets, Player* player);
   void render();

@@ -12,6 +12,8 @@ Player::Player(glm::vec2 pos) {
 void Player::reset() {
   this->position = glm::vec2(glutGet(GLUT_WINDOW_WIDTH)/2 - 20, 120.0f);
   this->fuel = initialFuel;
+  this->speed = 5.0;
+  this->score = 0.0;
 }
 
 void Player::update() {
@@ -23,12 +25,33 @@ void Player::update() {
 }
 
 void Player::render() {
+  float x = position.x, y = position.y;
+
+  // Corpo
   glColor3f(0.85, 0.7, 0.3);
   glBegin(GL_POLYGON);
-  glVertex2f(this->position.x, this->position.y);
-  glVertex2f(this->position.x, this->position.y + this->h);
-  glVertex2f(this->position.x + this->w, this->position.y + this->h);
-  glVertex2f(this->position.x + this->w, this->position.y);
+  glVertex2f(x+w*3/8, y);
+  glVertex2f(x+w*3.6/8, y+h);
+  glVertex2f(x+w*4.4/8, y+h);
+  glVertex2f(x+w*5/8, y);
+  glEnd();
+
+  // Asa esqurda
+  glColor3f(0.85, 0.7, 0.3);
+  glBegin(GL_POLYGON);
+  glVertex2f(x,     y+h*2/8);
+  glVertex2f(x,     y+h*3/8);
+  glVertex2f(x+w/2, y+h*7/8);
+  glVertex2f(x+w/2, y+h*4/8);
+  glEnd();
+
+  // Asa direita
+  glColor3f(0.85, 0.7, 0.3);
+  glBegin(GL_POLYGON);
+  glVertex2f(x+w/2, y+h*4/8);
+  glVertex2f(x+w/2, y+h*7/8);
+  glVertex2f(x+w,   y+h*3/8);
+  glVertex2f(x+w,   y+h*2/8);
   glEnd();
 
   this->renderFuel();

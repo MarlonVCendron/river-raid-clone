@@ -51,8 +51,8 @@ void display() {
 
 void animate(int value) {
   glutPostRedisplay();
-  if(level->update())
-    glutTimerFunc(MSPF, animate, 1);
+  level->update();
+  glutTimerFunc(MSPF, animate, 1);
 }
 
 int main(int argc, char **argv) {

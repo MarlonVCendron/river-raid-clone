@@ -8,14 +8,15 @@ class Player {
 
 private:
   int direction = 0;
-  float speed = 5.0f;
   int initialFuel = 1000;
-  int fuel = initialFuel;
   BulletSpawner* bulletSpawner = new BulletSpawner();
 
 public:
   glm::vec2 position;
   float w, h;
+  float speed = 5.0f;
+  int fuel = initialFuel;
+  int score = 0.0;
 
   Player(glm::vec2 position);
   void update();

@@ -14,14 +14,16 @@ private:
   float prevX1;
   float prevX2;
   bool connector;
+  bool restarting = false;
 
   bool tryAddTile();
 
 public:
   Level(Player* player);
-  bool update();
+  void update();
   void render();
   void endGame();
+  void threadReset();
 };
 
 #endif

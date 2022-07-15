@@ -3,6 +3,8 @@
 #include <GL/glut.h>
 #include <algorithm>
 #include <iostream>
+#include <chrono>
+#include <thread>
 #include "Level.h"
 
 bool Level::tryAddTile() {
@@ -40,44 +42,62 @@ Level::Level(Player* player) {
   }
 }
 
-bool Level::update() {
+void Level::update() {
   this->tiles.remove_if([=](LevelTile* tile) {
     this->tryAddTile();
     int tileStatus = tile->update(this->player->getBullets(), player);
-    if(tileStatus == 2) this->endGame();
-    return (tileStatus != 0);
+    if(tileStatus == 2 && !restarting) this->endGame();
+    return (tileStatus == 1);
   });
+
+  if(restarting) return;
 
   int i = 0;
   for (auto const& tile : this->tiles) {
     if(tile->checkPlayerCollision(player)) {
       this->endGame();
+      return;
     }
 
     if(++i >= 2) break; // Checar apenas dois primeiros
   }
 
   this->player->update();
-  return true;
+  if(player->fuel < 0) this->endGame();
 }
 
 void Level::render() {
-  for (auto const& tile : this->tiles)
-    tile->render(); 
+  for (std::list<LevelTile*>::reverse_iterator tile = tiles.rbegin(); tile != tiles.rend(); ++tile)
+    (*tile)->render();
 
-  this->player->render();
+  if(!restarting) this->player->render();
 }
 
-void Level::endGame() {
-  tiles.clear();
-  player->reset();
+void Level::threadReset() {
+  std::this_thread::sleep_for(std::chrono::nanoseconds(1000000000));
+
   prevX1 = 200;
   prevX2 = glutGet(GLUT_WINDOW_WIDTH) - 200;
   connector = false;
 
+  tiles.clear();
   bool doneAddingTiles = false;
   while(!doneAddingTiles){
     doneAddingTiles = !tryAddTile();
   }
+
+  speed = 5.0;
+  restarting = false;
+  player->reset();
+}
+
+void Level::endGame() {
+  SoundController::play("explosion");
+  speed = 0;
+  player->speed = 0;
+  restarting = true;
+
+  std::thread t( [this] { this->threadReset(); } );
+  t.detach();
 }
 
