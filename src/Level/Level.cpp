@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <chrono>
+#include <string>
 #include <thread>
 #include "Level.h"
 
@@ -30,7 +31,7 @@ bool Level::tryAddTile() {
 }
 
 Level::Level(Player* player) {
-  //SoundController::play("music");
+  SoundController::play("music");
   this->player = player;
   prevX1 = 200;
   prevX2 = glutGet(GLUT_WINDOW_WIDTH) - 200;
@@ -66,9 +67,22 @@ void Level::update() {
   if(player->fuel < 0) this->endGame();
 }
 
+void Level::drawText(const char* s, float x, float y, float r, float g, float b, void* f){
+  glColor3f(r, g, b);
+  
+  glRasterPos2i(x, y);
+  for (const char* c = s; *c != '\0'; c++) {
+    glutBitmapCharacter(f, *c);
+  }
+}
+
 void Level::render() {
   for (std::list<LevelTile*>::reverse_iterator tile = tiles.rbegin(); tile != tiles.rend(); ++tile)
     (*tile)->render();
+
+  std::string tmp = std::to_string(player->score);
+  const char* scoreTxt = tmp.c_str();
+  drawText(scoreTxt, 20, 20, 0.8, 0.7, 0.9, GLUT_BITMAP_TIMES_ROMAN_24);
 
   if(!restarting) this->player->render();
 }

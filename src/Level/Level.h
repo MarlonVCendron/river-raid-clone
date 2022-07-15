@@ -24,6 +24,7 @@ public:
   void render();
   void endGame();
   void threadReset();
+  void drawText(const char* s, float x, float y, float r, float g, float b, void* f);
 };
 
 #endif
