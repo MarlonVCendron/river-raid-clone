@@ -23,8 +23,16 @@ LevelTile::LevelTile(float y, float* speed, float x1, float x2, float prevX1, fl
 }
 
 void LevelTile::spawnObjects() {
-  this->ships.push_back(new Ship(x1, x2, &y, height, 3.0f));
-  this->helis.push_back(new Heli(x1, x2, &y, height, 5.0f));
+  int totalShips = (int) randomFloat(height/200.0) + 1;
+  int totalHelis = (int) randomFloat(height/200.0) + 1;
+  int totalFuels = (int) randomFloat(height/500.0) + 1;
+
+  for (int i=0; i<totalShips; i++)
+    this->ships.push_back(new Ship(x1, x2, &y, height, 3.0f));
+  for (int i=0; i<totalHelis; i++)
+    this->helis.push_back(new Heli(x1, x2, &y, height, 5.0f));
+  for (int i=0; i<totalFuels; i++)
+    this->fuels.push_back(new Fuel(x1, x2, &y, height));
 }
 
 int LevelTile::update(std::list<Bullet*>& bullets, Player* player){
@@ -39,6 +47,12 @@ int LevelTile::update(std::list<Bullet*>& bullets, Player* player){
     int heliStatus = heli->update(bullets, player);
     if(heliStatus == 1) playerDeath = true;
     return (heliStatus != 0);
+  });
+
+  fuels.remove_if([&](Fuel* fuel) {
+    int fuelStatus = fuel->update(bullets, player);
+    if(fuelStatus == 1) player->fillTank();
+    return (fuelStatus == 2);
   });
 
   this->y -= *this->speed;
@@ -76,6 +90,8 @@ void LevelTile::render() {
     ship->render(); 
   for (auto const& heli : this->helis)
     heli->render(); 
+  for (auto const& fuel : this->fuels)
+    fuel->render(); 
 }
 
 bool LevelTile::checkPlayerCollision(Player* player) {

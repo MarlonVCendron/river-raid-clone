@@ -9,6 +9,8 @@ class Player {
 private:
   int direction = 0;
   float speed = 5.0f;
+  int initialFuel = 1000;
+  int fuel = initialFuel;
   BulletSpawner* bulletSpawner = new BulletSpawner();
 
 public:
@@ -18,10 +20,12 @@ public:
   Player(glm::vec2 position);
   void update();
   void render();
+  void renderFuel();
   void reset();
   void keyDown(unsigned char key, int x, int y);
   void keyUp(unsigned char key, int x, int y);
   std::list<Bullet*>& getBullets();
+  void fillTank();
 };
 
 #endif

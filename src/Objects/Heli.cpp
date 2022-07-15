@@ -7,11 +7,11 @@
 #include "../Utils/RandomNumber.h"
 
 Heli::Heli(float boundX1, float boundX2, float* y, float boundHeight, float speed) {
-  this->x = boundX1+(boundX2-boundX1)/2;
+  this->x = boundX1+randomFloat(boundX2-boundX1-100);
   this->y = y;
   this->boundX1 = boundX1;
   this->boundX2 = boundX2;
-  this->speed = speed;
+  this->speed = rand()%2==0 ? speed : -speed;
   this->offsetY = randomFloat(boundHeight - 2*h) + h;
   this->counter = 0;
   this->animationFrame = false;

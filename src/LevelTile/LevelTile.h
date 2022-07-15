@@ -4,6 +4,7 @@
 #include "../Player/Player.cpp"
 #include "../Objects/Ship.cpp"
 #include "../Objects/Heli.cpp"
+#include "../Objects/Fuel.cpp"
 
 class LevelTile {
 
@@ -16,6 +17,7 @@ private:
   float height;
   std::list<Ship*> ships;
   std::list<Heli*> helis;
+  std::list<Fuel*> fuels;
 
   void spawnObjects();
 

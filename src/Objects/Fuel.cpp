@@ -2,69 +2,68 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <iostream>
-#include "Ship.h"
+#include "Fuel.h"
 #include "../Utils/checkCollision.h"
 #include "../Utils/RandomNumber.h"
 
-Ship::Ship(float boundX1, float boundX2, float* y, float boundHeight, float speed) {
+Fuel::Fuel(float boundX1, float boundX2, float* y, float boundHeight) {
   this->x = boundX1+randomFloat(boundX2-boundX1-100);
   this->y = y;
   this->boundX1 = boundX1;
   this->boundX2 = boundX2;
-  this->speed = rand()%2==0 ? speed : -speed;
   this->offsetY = randomFloat(boundHeight - 2*h) + h;
 }
 
-int Ship::update(std::list<Bullet*>& bullets, Player* player) {
-  this->x += speed;
-  if(x < boundX1 + 50) speed = abs(speed);
-  if(x+w > boundX2 - 50) speed = -abs(speed);
-
+int Fuel::update(std::list<Bullet*>& bullets, Player* player) {
   if(this->checkPlayerCollision(player)) return 1;
   if(this->checkBulletsCollision(bullets)) return 2;
   return 0;
 }
 
-void Ship::render() {
+void Fuel::render() {
   float y = *(this->y) + offsetY;
   
-  // Fundo laranja
-  glColor3f(0.68, 0.29, 0.04);
+  glColor3f(0.87, 0.13, 0.22);
   glBegin(GL_POLYGON);
-  glVertex2f(x+w*2/8, y);
-  glVertex2f(x+w*1/8, y + h*1/8);
-  glVertex2f(x+w*7/8, y + h*1/8);
-  glVertex2f(x+w*6/8, y);
-  glEnd();
-
-  // Fundo preto
-  glColor3f(0.05, 0.1, 0.0);
-  glBegin(GL_POLYGON);
-  glVertex2f(x+w*1/8, y + h*1/8);
-  glVertex2f(x, y + h*4/8);
-  glVertex2f(x+w, y + h*4/8);
-  glVertex2f(x+w*7/8, y + h*1/8);
+  glVertex2f(x  , y);
+  glVertex2f(x  , y+h*4/17);
+  glVertex2f(x+w, y+h*4/17);
+  glVertex2f(x+w, y);
   glEnd();
   
-  // Topo
-  glColor3f(0.3, 0.2, 0.5);
+  glColor3f(1.0, 1.0, 1.0);
   glBegin(GL_POLYGON);
-  glVertex2f(x+w*1/8, y + h*4/8);
-  glVertex2f(x+w*1/8, y + h*4/8);
-  glVertex2f(x+w*3/8, y + h);
-  glVertex2f(x+w*5/8, y + h);
-  glVertex2f(x+w*5/8, y + h*4/8);
+  glVertex2f(x  , y+h*5/17);
+  glVertex2f(x  , y+h*9/17);
+  glVertex2f(x+w, y+h*9/17);
+  glVertex2f(x+w, y+h*5/17);
+  glEnd();
+  
+  glColor3f(0.87, 0.13, 0.22);
+  glBegin(GL_POLYGON);
+  glVertex2f(x  , y+h*10/17);
+  glVertex2f(x  , y+h*14/17);
+  glVertex2f(x+w, y+h*14/17);
+  glVertex2f(x+w, y+h*10/17);
+  glEnd();
+  
+  glColor3f(1.0, 1.0, 1.0);
+  glBegin(GL_POLYGON);
+  glVertex2f(x+w/4  , y+h*15/17);
+  glVertex2f(x+w/4  , y+h*17/17);
+  glVertex2f(x+w*3/4, y+h*17/17);
+  glVertex2f(x+w*3/4, y+h*15/17);
   glEnd();
 }
 
-bool Ship::checkPlayerCollision(Player* player) {
+bool Fuel::checkPlayerCollision(Player* player) {
   return boxCollision(
     x, *y+offsetY, w, h,
     player->position.x, player->position.y, player->w, player->h
   );
 }
 
-bool Ship::checkBulletsCollision(std::list<Bullet*>& bullets) {
+bool Fuel::checkBulletsCollision(std::list<Bullet*>& bullets) {
   std::list<Bullet*>::iterator it = bullets.begin();
   while (it != bullets.end()){
     Bullet* bullet = *it;
